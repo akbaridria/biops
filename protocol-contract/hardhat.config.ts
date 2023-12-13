@@ -29,7 +29,7 @@ const config: HardhatUserConfig = {
         network: "modeTestnet",
         urls: {
           apiURL: "https://sepolia.explorer.mode.network/api",
-          browserURL: "https://sepolia.mode.network"
+          browserURL: "https://sepolia.explorer.mode.network"
         }
       }
     ]

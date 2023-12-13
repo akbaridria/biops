@@ -17,10 +17,10 @@ async function main() {
   const priceData = await connection.getPriceFeedsUpdateData([feedData.priceId]);
   const pyth = IPyth__factory.connect(datas.ptyh.contractAddress, new ethers.JsonRpcProvider(datas.rpc));
   const fee = await pyth.getUpdateFee(priceData)
-  const tx = await hub.trade('0x694aCF4DFb7601F92A0D2a41cdEC5bf7726C7294', BigInt(5 * 10 ** 6), BigInt(0), BigInt(300), feedData.name, priceData, {
+  const tx = await hub.trade('0x694aCF4DFb7601F92A0D2a41cdEC5bf7726C7294', BigInt(5 * 10 ** 6), BigInt(1), BigInt(300), feedData.name, priceData, {
     value: fee
   })
-  console.log("done")
+  console.log("done", tx.hash)
 }
 
 main().catch((error) => {

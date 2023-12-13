@@ -5,8 +5,9 @@ import "./DummyUSDT.sol";
 import "./Types.sol";
 import "./pyth/IPyth.sol";
 import "./pyth/PythStructs.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract BiopsHub {
+contract BiopsHub is ReentrancyGuard {
     // variable
     DummyUSDT dusdt;
     IPyth pyth;
@@ -64,11 +65,16 @@ contract BiopsHub {
         uint256 _time,
         string memory _market,
         bytes[] calldata _priceUpdateData
-    ) external payable returns (uint256) {
+    ) external nonReentrant() payable returns (uint256) {
         // 1. validation
         require(dusdt.balanceOf(_user) >= _amount);
         require(_time >= MINIMUM_TIME);
         require(_direction <= 1);
+        
+        uint256 limit = getTradeLimit();
+        if(_amount > limit) {
+            revert();
+        }
 
         // 2. send payment
         dusdt.transferFrom(_user, address(this), _amount);
@@ -86,6 +92,7 @@ contract BiopsHub {
             amount: _amount,
             direction: Types.Direction(_direction),
             startPrice: price.price,
+            markPrice: 0,
             status: Types.Status(0),
             expireTime: block.timestamp + _time,
             market: _market
@@ -101,7 +108,7 @@ contract BiopsHub {
     function resolveTrade(
         uint256 _tradeId,
         bytes[] calldata _priceUpdateData
-    ) public payable tradeExist(_tradeId) {
+    ) public nonReentrant() payable tradeExist(_tradeId) {
         require(
             tradeTracker[_tradeId].status == Types.Status.ACTIVE &&
                 block.timestamp >= tradeTracker[_tradeId].expireTime
@@ -110,6 +117,7 @@ contract BiopsHub {
         updateDataPrice(_priceUpdateData);
         bytes32 oracle = markets[tradeTracker[_tradeId].market];
         PythStructs.Price memory price = pyth.getPrice(oracle);
+        tradeTracker[_tradeId].markPrice = price.price;
         if (tradeTracker[_tradeId].direction == Types.Direction.UP) {
             if (price.price > tradeTracker[_tradeId].startPrice) {
                 updateStatus(_tradeId, 2);
@@ -127,13 +135,16 @@ contract BiopsHub {
         }
     }
 
-    function claim(uint256 _tradeId) external tradeExist(_tradeId) {
+    function claim(uint256 _tradeId) external nonReentrant() tradeExist(_tradeId) {
         require(tradeTracker[_tradeId].status == Types.Status.WIN);
         dusdt.transfer(
             tradeTracker[_tradeId].trader,
             tradeTracker[_tradeId].amount * 2
         );
+        totalUnrealizedProfit = totalUnrealizedProfit - (tradeTracker[_tradeId].amount * 2);
         tradeTracker[_tradeId].status = Types.Status(3);
+        updateStatus(_tradeId, 3);
+        emit Claimed(_tradeId, tradeTracker[_tradeId].trader, tradeTracker[_tradeId].amount * 2);
     }
 
     // helper function
@@ -158,6 +169,10 @@ contract BiopsHub {
             trades[i] = tradeTracker[userTradeTracker[_trader][i]];
         }
         return trades;
+    }
+
+    function getTradeLimit() public view returns (uint256) {
+        return (dusdt.balanceOf(address(this)) - totalUnrealizedProfit) / 2;
     }
 
     // admin functions

@@ -20,6 +20,7 @@ library Types {
     uint256 amount;
     Direction direction;
     int64 startPrice;
+    int64 markPrice;
     Status status;
     uint256 expireTime;
     string market;
