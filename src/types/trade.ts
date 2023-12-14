@@ -16,3 +16,7 @@ export interface IAsset {
   priceId: string;
   image: string;
 }
+
+export interface IAssetPrice extends IAsset {
+  price: number
+}

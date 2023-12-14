@@ -5,6 +5,7 @@ import TradingViewWidget from "@/modules/trade/components/TradingView";
 import datas from '../../../protocol-contract/datas.json';
 import type { IForm } from "@/types";
 import { useState } from "react";
+import TradePosition from "@/modules/trade/components/TradePosition";
 
 export default function Trade() {
   const [form, setForm] = useState<IForm>({
@@ -30,8 +31,11 @@ export default function Trade() {
               asset={form.asset}  
             />
           </div>
+          <div>
+            <TradePosition />
+          </div>
         </div>
-        <div className="flex-none w-[350px] max-w-full">
+        <div className="flex-none w-full md:w-[350px] max-w-full">
          <FormTrade />
         </div>
       </div>

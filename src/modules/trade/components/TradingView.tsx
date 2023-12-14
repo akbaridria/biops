@@ -36,7 +36,7 @@ export default function TradingViewWidget({ asset }: {asset: string}) {
           interval: "1",
           timezone: "Etc/UTC",
           theme: "dark",
-          style: "1",
+          style: "2",
           locale: "en",
           enable_publishing: false,
           allow_symbol_change: false,

@@ -7,3 +7,8 @@ export interface IBenefit {
   description: string;
   icon: () => JSX.Element
 }
+
+export interface IBlockies {
+  address: string;
+  customClass: string;
+}
