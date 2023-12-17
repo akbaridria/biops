@@ -18,5 +18,25 @@ export interface IAsset {
 }
 
 export interface IAssetPrice extends IAsset {
-  price: number
+  price: number;
+}
+
+export interface ILoadingTrade {
+  loadingBalance: boolean;
+  loadingAllowance: boolean;
+  loadingLimit: boolean;
+  loadingApprove: boolean;
+  loadingTrade: boolean;
+}
+
+export interface IPosition  {
+  isExist: boolean;
+  trader: `0x${string}`;
+  amount: bigint;
+  direction: number;
+  startPrice: bigint;
+  markPrice: bigint;
+  status: number;
+  expireTime: bigint;
+  market: string;
 }

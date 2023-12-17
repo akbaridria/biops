@@ -6,6 +6,9 @@ import {
   ArrowDiagonalSquare,
   ArrowSquare
 } from '@/components/Icons'
+import { EvmPriceServiceConnection } from '@pythnetwork/pyth-evm-js'
+
+const connection = new EvmPriceServiceConnection("https://hermes.pyth.network")
 
 export const listBenefits: IBenefit[] = [
   {
@@ -44,4 +47,22 @@ export const listSubMenuAccount = ():IAccountSubMenu[] => {
       icon: ArrowSquare({ customClass: 'w-4 h-4 stroke-base-content rotate-[180deg]'})
     }
   ]
+}
+
+export const getPrice = async (priceIds: string[]) => {
+  
+  const res = await connection.getLatestPriceFeeds(priceIds)
+  if(!!res) {
+    const price = res[0].getPriceNoOlderThan(60)
+    if(price?.price && price?.expo) {
+      return Number(price?.price) * (10 ** price?.expo)
+    }
+    return 0;
+  }
+  return 0;
+}
+
+export const getPriceData = async (priceIds: string[]) => {
+  const res = await connection.getPriceFeedsUpdateData(priceIds);
+  return res
 }

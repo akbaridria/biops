@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Providers } from './Providers'
+import Toast from '@/components/Toast'
+import ReduxProvider from '@/app/ReduxProvider'
 
 const inter = DM_Sans({ subsets: ["latin"] })
 
@@ -21,9 +23,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header />
-          {children}
-          <Footer />
+          <ReduxProvider>
+            {/* <Loader /> */}
+            <Toast />
+            <Header />
+            {children}
+            <Footer />
+          </ReduxProvider>
         </Providers>
       </body>
     </html>

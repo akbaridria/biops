@@ -6,14 +6,18 @@ import datas from '../../../protocol-contract/datas.json';
 import type { IForm } from "@/types";
 import { useState } from "react";
 import TradePosition from "@/modules/trade/components/TradePosition";
+import ModalConfirm from "@/modules/trade/components/ModalConfirm";
 
 export default function Trade() {
   const [form, setForm] = useState<IForm>({
     amount: '',
     asset: datas.ptyh.priceFeedIds[0].name,
     direction: 0,
-    time: 300
+    time: 5
   });
+  const [showModal, setShowModal] = useState(false)
+
+  // effect
 
   return (
     <div className="container mx-auto p-4 min-h-screen my-6">
@@ -36,9 +40,13 @@ export default function Trade() {
           </div>
         </div>
         <div className="flex-none w-full md:w-[350px] max-w-full">
-         <FormTrade />
+         <FormTrade form={form} setForm={setForm} setShow={setShowModal} />
         </div>
       </div>
+
+      {/* start modal  */}
+      { showModal && <ModalConfirm form={form} show={showModal} setShow={setShowModal} />}
+      {/* end modal  */}
     </div>
   );
 }
