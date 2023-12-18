@@ -11,7 +11,7 @@ Biops is a revolutionary perpetual market platform that introduces expiration ti
 ![biops-flow](https://github.com/akbaridria/biops/assets/26589426/bb96d2a7-7bcb-43c2-993f-4965a8892062)
 
 
-## Contract Addresses
+## Contract Addresses (MODE Testnet)
 - **BiopsHub**: `0xc3d96C75d3739BF7C0BEAeAddEc30a542f714Bb2`
 - **DummyUSDT**: `0x0C24805507556313f0C3633558fc5e5A9dAE1d36`
 - **Oracle Address (Pyth)**: `0xA2aa501b19aff244D90cc15a4Cf739D2725B5729`
