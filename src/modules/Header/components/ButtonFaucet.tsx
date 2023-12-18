@@ -32,7 +32,7 @@ export const ButtonFaucet = () => {
     }
   }
   return (
-    <button className="btn btn-neutral btn-sm items-center" onClick={handleFaucet} disabled={isLoading}>
+    <button className="btn btn-ghost btn-sm items-center" onClick={handleFaucet} disabled={isLoading}>
       {isLoading && <Spinner customClass='w-4 h-4' />}
       <div>Faucet <span className="hidden md:inline-block">200 USDT</span> </div>
       <img src="images/cryptos/usdt.svg" className="w-4 h-4" alt="usdt" />

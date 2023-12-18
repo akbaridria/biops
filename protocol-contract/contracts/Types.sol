@@ -16,6 +16,7 @@ library Types {
 
   struct Trade {
     bool isExist;
+    uint256 tradeId;
     address trader;
     uint256 amount;
     Direction direction;

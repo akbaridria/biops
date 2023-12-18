@@ -153,8 +153,8 @@ export const FormTrade = (data: { form: IForm, setForm: (arg0: { direction: numb
             </div>
           </div>
           <div className="flex justify-between text-xs">
-            <div>Limit: {loading.loadingLimit ? 'loading...' : formatCurrency(Number(limit) / (10 ** 8))}</div>
-            <div>Balance: {loading.loadingLimit ? 'loading...' : formatCurrency(Number(balance) / (10 ** 8))}</div>
+            <div><span className='opacity-[0.5]'>Limit</span>: {loading.loadingLimit ? 'loading...' : formatCurrency(Number(limit) / (10 ** 8))}</div>
+            <div><span className='opacity-[0.5]'>Balance</span>: {loading.loadingLimit ? 'loading...' : formatCurrency(Number(balance) / (10 ** 8))}</div>
           </div>
         </div>
         <div className="text-sm">

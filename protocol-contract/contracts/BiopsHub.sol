@@ -88,6 +88,7 @@ contract BiopsHub is ReentrancyGuard {
         userTradeTracker[_user].push(tradeId);
         tradeTracker[tradeId] = Types.Trade({
             isExist: true,
+            tradeId: tradeId,
             trader: _user,
             amount: _amount,
             direction: Types.Direction(_direction),
@@ -124,6 +125,7 @@ contract BiopsHub is ReentrancyGuard {
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
+                totalUnrealizedProfit -= tradeTracker[_tradeId].amount *2;
             }
         } else {
             if (price.price < tradeTracker[_tradeId].startPrice) {
@@ -131,6 +133,7 @@ contract BiopsHub is ReentrancyGuard {
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
+                totalUnrealizedProfit -= tradeTracker[_tradeId].amount *2;
             }
         }
     }

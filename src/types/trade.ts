@@ -29,8 +29,9 @@ export interface ILoadingTrade {
   loadingTrade: boolean;
 }
 
-export interface IPosition  {
+export interface IPosition {
   isExist: boolean;
+  tradeId: bigint;
   trader: `0x${string}`;
   amount: bigint;
   direction: number;
@@ -39,4 +40,13 @@ export interface IPosition  {
   status: number;
   expireTime: bigint;
   market: string;
+}
+
+export interface IUserStat {
+  profit: number;
+  totalTrade: number;
+  totalWin: number;
+  totalLose: number;
+  totalActiveTrade: number;
+  winRate: number;
 }

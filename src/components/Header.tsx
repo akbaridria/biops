@@ -6,6 +6,7 @@ import ButtonAccount from "@/modules/Header/components/ButtonAccount";
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 import { ButtonSwitchWallet } from "@/modules/Header/components/ButtonSwitchWallet";
 import { ButtonFaucet } from "@/modules/Header/components/ButtonFaucet";
+import Link from "next/link";
 export const Header = () => {
   const { isConnected } = useAccount()
   const { chain } = useNetwork()
@@ -15,9 +16,9 @@ export const Header = () => {
       <div className="container px-4 mx-auto sticky top-0 z-[100]">
         <div className="navbar bg-base-100">
           <div className="flex-1 md:justify-start justify-center">
-            <div>
+            <Link href={'/'}>
               <Logo />
-            </div>
+            </Link>
           </div>
           <div className="hidden md:flex flex-none">
             <div className="flex gap-2">

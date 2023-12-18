@@ -5,7 +5,7 @@
   "blockExplorer": "https://sepolia.explorer.mode.network",
   "contractAddresses": {
     "dummyUSDT": "0x0C24805507556313f0C3633558fc5e5A9dAE1d36",
-    "hub": "0x681AfE63C1F7B1F3f11b9A2120619cb3CAC9e81B"
+    "hub": "0xc3d96C75d3739BF7C0BEAeAddEc30a542f714Bb2"
   },
   "ptyh": {
     "contractAddress": "0xA2aa501b19aff244D90cc15a4Cf739D2725B5729",
@@ -28,7 +28,7 @@
       {
         "name": "SOL / USD",
         "priceId": "0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d",
-        "image": "sol.svg"
+        "image": "sol.png"
       },
       {
         "name": "AVAX / USD",

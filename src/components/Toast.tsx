@@ -11,6 +11,10 @@ export const Toast = () => {
   const toastState = useSelector((state: { toast: IToast }) => state.toast);
   const dispatch = useDispatch();
 
+  setTimeout(() => {
+    dispatch(setShow(false))
+  }, 10000)
+
   return (
     <div className="toast toast-end z-[1000] ">
       <div className={`alert alert-success relative ${toastState.open ? 'right-0' : 'right-[-200%]'} transition-all`}>

@@ -1,14 +1,18 @@
 'use client'
 
 import { formatCurrency, getPrice } from "@/helper"
-import { getUserHistory } from "@/modules/prepareContract"
+import { getUserHistory, prepareClaim } from "@/modules/prepareContract"
 import { IPosition, ITrigger } from "@/types"
 import { useCallback, useEffect, useState } from "react"
 import { useAccount } from "wagmi"
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import datas from '../../../../protocol-contract/datas.json'
-import { Refresh } from "@/components/Icons"
+import { Refresh, Spinner } from "@/components/Icons"
+import React from "react"
+import { waitForTransaction, writeContract } from "@wagmi/core"
+import { setTriggerPosition } from "@/store/features/useTrigger"
+import { setShow, setTx } from "@/store/features/useToast"
 
 export const TradePosition = () => {
   const tHead = ['Market', 'Direction', 'Entry Price', 'Mark/Current Price', 'Initial Margin', 'Expire Time', 'Status']
@@ -24,11 +28,11 @@ export const TradePosition = () => {
     },
     {
       name: 'Win',
-      value: 1
+      value: 2
     },
     {
       name: 'Lose',
-      value: 2
+      value: 1
     }
   ]
   const { address } = useAccount()
@@ -39,6 +43,8 @@ export const TradePosition = () => {
       const res = await getUserHistory(address)
       setPosition(res)
       setLoading(false)
+    } else {
+      setPosition([])
     }
   }, [address])
 
@@ -54,9 +60,9 @@ export const TradePosition = () => {
           {
             listTabs.map((item) => {
               return (
-                <>
-                  <input key={item.name} type="radio" name="user_position" value={item.value} role="tab" className="tab whitespace-nowrap" aria-label={`${item.name} (${position.filter((v) => item.value === 1 ? v.status === item.value || v.status === 3 : v.status === item.value).length})`} checked={item.value === activeTab} onChange={() => setActiveTab(item.value)} />
-                  <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 overflow-x-auto max-w-full">
+                <React.Fragment key={item.value}>
+                  <input key={`${item.value} - tab`} type="radio" name="user_position" value={item.value} role="tab" className="tab whitespace-nowrap font-semibold" aria-label={`${item.name} (${position.filter((v) => item.value === 2 ? item.value === v.status || v.status === 3 : v.status === item.value).length})`} checked={item.value === activeTab} onChange={() => setActiveTab(item.value)} />
+                  <div key={`${item.value} - tabBody`} role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 overflow-x-auto max-w-full">
                     <div className="overflow-x-auto max-w-full pb-6">
                       <table className="table table-zebra">
                         {/* head */}
@@ -73,36 +79,36 @@ export const TradePosition = () => {
                         </thead>
                         <tbody>
                           {
-                            loading && <div>loading...</div>
+                            loading && <tr><td>loading...</td></tr>
                           }
                           {
                             !loading &&
                             position.map((item, index) => {
 
-                              if (activeTab === 1 && (item.status === 2 || item.status === 3)) {
+                              if (activeTab === 2 && (item.status === 2 || item.status === 3)) {
                                 return (
-                                  <TrData key={index} position={item} />
+                                  <TrData key={`${index} - win`} position={item} />
                                 )
                               }
-                              if (activeTab === 2 && item.status === 1) {
+                              if (activeTab === 1 && item.status === 1) {
                                 return (
-                                  <TrData key={index} position={item} />
+                                  <TrData key={`${index} - lose`} position={item} />
                                 )
                               }
                               if (activeTab === 0 && item.status === 0) {
                                 return (
-                                  <TrData key={index} position={item} />
+                                  <TrData key={`${index} - active`} position={item} />
                                 )
                               }
                             })
                           }
-                          {(!loading && position.length === 0) && <div>no data</div>
+                          {(!loading && position.length === 0) && <tr><td>no data</td></tr>
 
                           }
                         </tbody>
                       </table>
                     </div>
-                  </div></>
+                  </div></React.Fragment>
               )
             })
           }
@@ -129,8 +135,10 @@ const TrData = (data: { position: IPosition }) => {
   }, [data.position.market])
 
   useEffect(() => {
-    getData()
-  }, [getData])
+    if (data.position.status === 0) {
+      getData()
+    }
+  }, [])
 
 
   return (
@@ -175,7 +183,7 @@ const BadgeStatus = (data: { position: IPosition }) => {
   }
   if (data.position.status === 2) {
     return (
-      <button className="btn btn-sm btn-primary">Claim</button>
+      <ButtonClaim tradeId={Number(data.position.tradeId)} />
     )
   }
   if (data.position.status === 3) {
@@ -183,5 +191,34 @@ const BadgeStatus = (data: { position: IPosition }) => {
       <button className="btn btn-sm btn-primary" disabled={true}>Claimed</button>
     )
   }
+}
+
+const ButtonClaim = (data: { tradeId: number }) => {
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const handleClaim = async () => {
+    try {
+      setLoading(true)
+      const { request } = await prepareClaim(data.tradeId)
+      const { hash } = await writeContract(request)
+      const { transactionHash } = await waitForTransaction({
+        hash: hash
+      })
+      dispatch(setTriggerPosition(1))
+      dispatch(setShow(true))
+      dispatch(setTx(transactionHash))
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
+  }
+  return (
+    <button className="btn btn-sm btn-primary" onClick={() => handleClaim()} disabled={loading}>
+      {loading && <Spinner customClass="w-4 h-4" />}
+      <div>Claim</div>
+    </button>
+  )
 }
 export default TradePosition;

@@ -11,7 +11,10 @@ const inter = DM_Sans({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: 'Biops',
-  description: '',
+  description: "Unveiling Mode Blockchain's Perpetual Oracle Market",
+  icons: {
+    icon: './images/biops-icon.svg'
+  }
 }
 
 export default function RootLayout({

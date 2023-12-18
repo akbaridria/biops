@@ -7,6 +7,7 @@ import type { IForm } from "@/types";
 import { useState } from "react";
 import TradePosition from "@/modules/trade/components/TradePosition";
 import ModalConfirm from "@/modules/trade/components/ModalConfirm";
+import TradeStat from "@/modules/trade/components/TradeStat";
 
 export default function Trade() {
   const [form, setForm] = useState<IForm>({
@@ -41,6 +42,7 @@ export default function Trade() {
         </div>
         <div className="flex-none w-full md:w-[350px] max-w-full">
          <FormTrade form={form} setForm={setForm} setShow={setShowModal} />
+         <TradeStat />
         </div>
       </div>
 
