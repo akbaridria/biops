@@ -5,3 +5,4 @@ import type * as pyth from "./pyth";
 export type { pyth };
 export type { BiopsHub } from "./BiopsHub";
 export type { DummyUSDT } from "./DummyUSDT";
+export type { VDummyUSDTPool } from "./VDummyUSDTPool";

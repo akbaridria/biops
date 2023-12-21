@@ -29,7 +29,7 @@ export const listBenefits: IBenefit[] = [
 ]
 
 export const formatCurrency = (v: number) => {
-  return new Intl.NumberFormat().format(v);
+  return new Intl.NumberFormat('en', { minimumFractionDigits: 0, maximumFractionDigits: 8}).format(v);
 }
 
 export const trimWallet = (v:string) => {

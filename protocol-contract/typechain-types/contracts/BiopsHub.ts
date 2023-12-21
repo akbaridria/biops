@@ -66,6 +66,7 @@ export interface BiopsHubInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "addMarket"
+      | "changeVdummyUSDTPool"
       | "claim"
       | "getTradeLimit"
       | "getUserFullInfo"
@@ -85,6 +86,10 @@ export interface BiopsHubInterface extends Interface {
   encodeFunctionData(
     functionFragment: "addMarket",
     values: [string, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeVdummyUSDTPool",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "claim", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -126,6 +131,10 @@ export interface BiopsHubInterface extends Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "addMarket", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeVdummyUSDTPool",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getTradeLimit",
@@ -261,6 +270,12 @@ export interface BiopsHub extends BaseContract {
     "nonpayable"
   >;
 
+  changeVdummyUSDTPool: TypedContractMethod<
+    [_pool: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   claim: TypedContractMethod<[_tradeId: BigNumberish], [void], "nonpayable">;
 
   getTradeLimit: TypedContractMethod<[], [bigint], "view">;
@@ -343,6 +358,9 @@ export interface BiopsHub extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "changeVdummyUSDTPool"
+  ): TypedContractMethod<[_pool: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "claim"
   ): TypedContractMethod<[_tradeId: BigNumberish], [void], "nonpayable">;

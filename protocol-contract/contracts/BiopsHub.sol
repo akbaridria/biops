@@ -6,10 +6,12 @@ import "./Types.sol";
 import "./pyth/IPyth.sol";
 import "./pyth/PythStructs.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "./vDummyUSDTPool.sol";
 
 contract BiopsHub is ReentrancyGuard {
     // variable
     DummyUSDT dusdt;
+    vDummyUSDTPool vdusdt;
     IPyth pyth;
 
     mapping(uint256 => Types.Trade) public tradeTracker;
@@ -125,6 +127,7 @@ contract BiopsHub is ReentrancyGuard {
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
+                dusdt.transfer(address(vdusdt), tradeTracker[_tradeId].amount);
                 totalUnrealizedProfit -= tradeTracker[_tradeId].amount *2;
             }
         } else {
@@ -133,6 +136,7 @@ contract BiopsHub is ReentrancyGuard {
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
+                dusdt.transfer(address(vdusdt), tradeTracker[_tradeId].amount);
                 totalUnrealizedProfit -= tradeTracker[_tradeId].amount *2;
             }
         }
@@ -140,10 +144,8 @@ contract BiopsHub is ReentrancyGuard {
 
     function claim(uint256 _tradeId) external nonReentrant() tradeExist(_tradeId) {
         require(tradeTracker[_tradeId].status == Types.Status.WIN);
-        dusdt.transfer(
-            tradeTracker[_tradeId].trader,
-            tradeTracker[_tradeId].amount * 2
-        );
+        vdusdt.transferToBiops(tradeTracker[_tradeId].amount * 2, tradeTracker[_tradeId].trader);
+
         totalUnrealizedProfit = totalUnrealizedProfit - (tradeTracker[_tradeId].amount * 2);
         tradeTracker[_tradeId].status = Types.Status(3);
         updateStatus(_tradeId, 3);
@@ -175,7 +177,7 @@ contract BiopsHub is ReentrancyGuard {
     }
 
     function getTradeLimit() public view returns (uint256) {
-        return (dusdt.balanceOf(address(this)) - totalUnrealizedProfit) / 2;
+        return (dusdt.balanceOf(address(vdusdt)) - totalUnrealizedProfit) / 2;
     }
 
     // admin functions
@@ -186,7 +188,11 @@ contract BiopsHub is ReentrancyGuard {
         markets[_market] = _priceId;
     }
 
-    function removeMarket(string memory _market) external onlyOwner {
+    function removeMarket(string memory _market) external onlyOwner() {
         delete markets[_market];
+    }
+
+    function changeVdummyUSDTPool(address _pool) external onlyOwner() {
+        vdusdt = vDummyUSDTPool(_pool);
     }
 }

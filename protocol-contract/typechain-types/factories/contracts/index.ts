@@ -4,3 +4,4 @@
 export * as pyth from "./pyth";
 export { BiopsHub__factory } from "./BiopsHub__factory";
 export { DummyUSDT__factory } from "./DummyUSDT__factory";
+export { VDummyUSDTPool__factory } from "./VDummyUSDTPool__factory";

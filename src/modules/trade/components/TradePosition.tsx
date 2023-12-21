@@ -128,6 +128,7 @@ export const TradePosition = () => {
 
 const TrData = (data: { position: IPosition }) => {
   const [markPrice, setMarkPrice] = useState(0);
+  const [countDown, setCountdown] = useState('');
 
   const getData = useCallback(async () => {
     const res = await getPrice([datas.ptyh.priceFeedIds.filter(item => item.name === data.position.market)[0].priceId])
@@ -135,11 +136,29 @@ const TrData = (data: { position: IPosition }) => {
   }, [data.position.market])
 
   useEffect(() => {
-    if (data.position.status === 0) {
-      getData()
-    }
+    getData()
   }, [])
 
+  useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    if (data.position.status === 0) {
+      setCountdown(moment(moment(Number(data.position.expireTime) * 1000).diff(moment())).format('mm:ss'))
+      interval = setInterval(() => {
+        setCountdown(moment(moment(Number(data.position.expireTime) * 1000).diff(moment())).format('mm:ss'))
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [countDown])
+
+  useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    if(data.position.status === 0) {
+      interval = setInterval(() => {
+        getData()
+      }, 7000)
+    }
+    return () => clearInterval(interval)
+  }, [markPrice])
 
   return (
     <tr>
@@ -151,14 +170,14 @@ const TrData = (data: { position: IPosition }) => {
       </td>
       <td>{data.position.direction === 0 ? 'Long' : 'Short'}</td>
       <td>${formatCurrency(Number(data.position.startPrice) / (10 ** 8))}</td>
-      <td>${data.position.status === 0 ? formatCurrency(markPrice) : formatCurrency(Number(data.position.markPrice) / (10 ** 8))}</td>
+      <td>{markPrice > 0 && <span>$</span> }{data.position.status === 0 ? markPrice === 0 ? <span className="italic">loading..</span> : formatCurrency(markPrice) : formatCurrency(Number(data.position.markPrice) / (10 ** 8))}</td>
       <td>
         <div className="flex items-center gap-1">
           <div>{formatCurrency(Number(data.position.amount) / (10 ** 8))}</div>
           <img src="images/cryptos/usdt.svg" className="w-4 h-4 rounded-full" alt="usdt" />
         </div>
       </td>
-      <td>{moment(Number(data.position.expireTime) * 1000).format('lll')}</td>
+      <td>{data.position.status === 0 ? countDown : moment(Number(data.position.expireTime) * 1000).format('lll')}</td>
       {/* <td>{Number(data.position.status)}</td> */}
       <td><BadgeStatus position={data.position} /></td>
     </tr>

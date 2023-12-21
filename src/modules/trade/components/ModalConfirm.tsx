@@ -121,7 +121,7 @@ export const ModalConfirm = (data: { form: IForm, show: boolean, setShow: (arg0:
             </div>
             <div className="flex items-center justify-between">
               <div className="opacity-[0.5]">Time</div>
-              <div>5 Minutes</div>
+              <div>{ data.form.time } minutes</div>
             </div>
             <div className="flex items-center justify-between">
               <div className="opacity-[0.5]">Amount</div>

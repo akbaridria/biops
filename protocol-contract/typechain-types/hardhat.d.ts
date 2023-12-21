@@ -34,6 +34,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
     getContractFactory(
+      name: "ERC20Burnable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Burnable__factory>;
+    getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Metadata__factory>;
@@ -61,6 +65,10 @@ declare module "hardhat/types/runtime" {
       name: "IPythEvents",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IPythEvents__factory>;
+    getContractFactory(
+      name: "VDummyUSDTPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VDummyUSDTPool__factory>;
 
     getContractAt(
       name: "Ownable",
@@ -87,6 +95,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "ERC20Burnable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Burnable>;
     getContractAt(
       name: "IERC20Metadata",
       address: string | ethers.Addressable,
@@ -122,6 +135,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IPythEvents>;
+    getContractAt(
+      name: "VDummyUSDTPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.VDummyUSDTPool>;
 
     deployContract(
       name: "Ownable",
@@ -143,6 +161,10 @@ declare module "hardhat/types/runtime" {
       name: "ERC20",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Burnable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Burnable>;
     deployContract(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -171,6 +193,10 @@ declare module "hardhat/types/runtime" {
       name: "IPythEvents",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IPythEvents>;
+    deployContract(
+      name: "VDummyUSDTPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.VDummyUSDTPool>;
 
     deployContract(
       name: "Ownable",
@@ -197,6 +223,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Burnable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Burnable>;
     deployContract(
       name: "IERC20Metadata",
       args: any[],
@@ -232,6 +263,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IPythEvents>;
+    deployContract(
+      name: "VDummyUSDTPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.VDummyUSDTPool>;
 
     // default types
     getContractFactory(

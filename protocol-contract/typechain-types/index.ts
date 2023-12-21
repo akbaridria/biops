@@ -16,6 +16,8 @@ export type { IERC721Errors } from "./@openzeppelin/contracts/interfaces/draft-I
 export { IERC721Errors__factory } from "./factories/@openzeppelin/contracts/interfaces/draft-IERC6093.sol/IERC721Errors__factory";
 export type { ERC20 } from "./@openzeppelin/contracts/token/ERC20/ERC20";
 export { ERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/ERC20__factory";
+export type { ERC20Burnable } from "./@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable";
+export { ERC20Burnable__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable__factory";
 export type { IERC20Metadata } from "./@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata";
 export { IERC20Metadata__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata__factory";
 export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
@@ -30,3 +32,5 @@ export type { IPyth } from "./contracts/pyth/IPyth";
 export { IPyth__factory } from "./factories/contracts/pyth/IPyth__factory";
 export type { IPythEvents } from "./contracts/pyth/IPythEvents";
 export { IPythEvents__factory } from "./factories/contracts/pyth/IPythEvents__factory";
+export type { VDummyUSDTPool } from "./contracts/VDummyUSDTPool";
+export { VDummyUSDTPool__factory } from "./factories/contracts/VDummyUSDTPool__factory";

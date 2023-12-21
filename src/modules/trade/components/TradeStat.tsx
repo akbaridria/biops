@@ -69,7 +69,7 @@ export const TradeStat = () => {
           <>
           <div className="flex items-center justify-between">
           <div className="opacity-[0.5] text-sm font-semibold">Total Profit</div>
-          <div className="font-semibold text-error">
+          <div className="font-semibold">
             <div className="flex items-center gap-1">
               <div>{ formatCurrency(dataStat.profit) }</div>
               <img src="images/cryptos/usdt.svg" className="w-4 h-4 rounded-full" alt="usdt" />
