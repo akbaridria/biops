@@ -7,13 +7,24 @@ Biops is a revolutionary perpetual market platform that introduces expiration ti
 - **pyth.network Oracle Datafeeds**: Leveraging reliable data from pyth.network for accurate market information.
 - **wagmi.sh for Wallet Connect Management**: Efficiently managing wallet connections using wagmi.sh for seamless user experiences.
 
+## Features
+
+- #### Trading on Biops
+Biops on the Mode blockchain provides a user-friendly interface for seamless trading experiences. Users can engage in time-bound trading activities, leveraging the perpetual market structure with expiration times as short as 5 minutes. The platform offers a diverse range of tradable assets within the ModE ecosystem, allowing users to execute short-term trading strategies efficiently.
+
+- #### Liquidity Provision
+In addition to trading, Biops facilitates liquidity provision for users within the Mode ecosystem. Users can contribute liquidity to supported markets, enhancing the market's depth and enabling smoother trading experiences for participants. By adding liquidity, users play a crucial role in maintaining a robust and efficient trading environment on Biops.
+
+
 ## Illustrative Flow
-![biops-flow](https://github.com/akbaridria/biops/assets/26589426/bb96d2a7-7bcb-43c2-993f-4965a8892062)
+
+![flow-biops (1)](https://github.com/akbaridria/biops/assets/26589426/38295de7-92ee-46c7-8054-e662b78f0add)
 
 
 ## Contract Addresses (MODE Testnet)
-- **BiopsHub**: `0xc3d96C75d3739BF7C0BEAeAddEc30a542f714Bb2`
+- **BiopsHub**: `0x76c031DD48596F21A9B4A70e1F7bC0E25CCC626D`
 - **DummyUSDT**: `0x0C24805507556313f0C3633558fc5e5A9dAE1d36`
+- **vDummyUSDT**: `0x14241c2842CfF5378d2a7a5Ef336D2aa5500bA03`
 - **Oracle Address (Pyth)**: `0xA2aa501b19aff244D90cc15a4Cf739D2725B5729`
 
 ## Supported Markets on Biops
