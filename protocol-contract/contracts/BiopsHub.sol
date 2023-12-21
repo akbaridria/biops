@@ -124,6 +124,7 @@ contract BiopsHub is ReentrancyGuard {
         if (tradeTracker[_tradeId].direction == Types.Direction.UP) {
             if (price.price > tradeTracker[_tradeId].startPrice) {
                 updateStatus(_tradeId, 2);
+                vdusdt.transferToBiops(tradeTracker[_tradeId].amount, address(this));
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
@@ -133,6 +134,7 @@ contract BiopsHub is ReentrancyGuard {
         } else {
             if (price.price < tradeTracker[_tradeId].startPrice) {
                 updateStatus(_tradeId, 2);
+                vdusdt.transferToBiops(tradeTracker[_tradeId].amount, address(this));
             } else {
                 tradeTracker[_tradeId].status = Types.Status(1);
                 updateStatus(_tradeId, 1);
@@ -144,8 +146,7 @@ contract BiopsHub is ReentrancyGuard {
 
     function claim(uint256 _tradeId) external nonReentrant() tradeExist(_tradeId) {
         require(tradeTracker[_tradeId].status == Types.Status.WIN);
-        vdusdt.transferToBiops(tradeTracker[_tradeId].amount * 2, tradeTracker[_tradeId].trader);
-
+        dusdt.transfer(tradeTracker[_tradeId].trader, tradeTracker[_tradeId].amount * 2);
         totalUnrealizedProfit = totalUnrealizedProfit - (tradeTracker[_tradeId].amount * 2);
         tradeTracker[_tradeId].status = Types.Status(3);
         updateStatus(_tradeId, 3);
