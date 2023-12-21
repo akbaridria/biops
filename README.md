@@ -22,7 +22,7 @@ In addition to trading, Biops facilitates liquidity provision for users within t
 
 
 ## Contract Addresses (MODE Testnet)
-- **BiopsHub**: `0x76c031DD48596F21A9B4A70e1F7bC0E25CCC626D`
+- **BiopsHub**: `0x0A24406fB336c3D36eEc54049ec13e27bD240e46`
 - **DummyUSDT**: `0x0C24805507556313f0C3633558fc5e5A9dAE1d36`
 - **vDummyUSDT**: `0x14241c2842CfF5378d2a7a5Ef336D2aa5500bA03`
 - **Oracle Address (Pyth)**: `0xA2aa501b19aff244D90cc15a4Cf739D2725B5729`
