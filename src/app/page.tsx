@@ -17,7 +17,7 @@ export default function Home() {
         await Promise.all([getLiquidity(), getActiveTradeVolume(), getLatestTradeId()]).then((values) => {
           setLiquidity(values[0])
           setVolume(values[1])
-          setTrades(values[2])
+          setTrades(values[2] as string)
         })
       } catch (error) {
         console.log(error)
